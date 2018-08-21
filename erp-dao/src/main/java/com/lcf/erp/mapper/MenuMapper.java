@@ -2,11 +2,11 @@ package com.lcf.erp.mapper;
 
 import org.springframework.stereotype.Repository;
 
-import com.lcf.erp.entity.Dep;
-
 import tk.mybatis.mapper.common.Mapper;
 
+import com.lcf.erp.entity.Menu;
+
 @Repository
-public interface DepMapper extends Mapper<Dep> {
-	
+public interface MenuMapper extends Mapper<Menu> {
+
 }

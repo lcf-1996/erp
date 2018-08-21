@@ -1,7 +1,5 @@
 package com.lcf.erp.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,7 +8,7 @@ import javax.persistence.SequenceGenerator;
 import lombok.Data;
 
 @Data
-public class Dep implements Serializable {
+public class Dep {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="dep_seq")
 	@SequenceGenerator(name="dep_seq", sequenceName="dep_seq", allocationSize=1)

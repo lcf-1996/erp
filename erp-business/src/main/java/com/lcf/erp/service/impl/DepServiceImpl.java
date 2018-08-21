@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
@@ -14,55 +15,44 @@ import com.lcf.erp.mapper.DepMapper;
 import com.lcf.erp.service.IDepService;
 
 @Service
-public class DepServiceImpl implements IDepService {
+public class DepServiceImpl extends BaseServiceImpl<Dep> implements IDepService {
 	@Autowired
 	private DepMapper mapper;
 	
 	@Override
+	public Mapper<Dep> getMapper() {
+		return this.mapper;
+	}
+	
+	@Override
 	public List<Dep> findDeps(Dep dep) {
-		//构造查询条件
+		//封装查询条件
 		Example example = new Example(Dep.class);
+		//查询条件
 		Criteria c = example.createCriteria();
 		if (!StringUtils.isEmpty(dep.getName())) {
-			c.andLike("name", "%" + dep.getName() + "%");
+			c.andLike("name", "%" + dep.getName() + "%"); //相当于name like '%xxx%'
 		}
 		if (!StringUtils.isEmpty(dep.getTele())) {
-			c.andEqualTo("tele", dep.getTele());
+			c.andEqualTo("tele", dep.getTele()); //相当于tele = xxxx
 		}
-		
 		//设置排序
 		example.setOrderByClause("uuid desc");
-
 		return mapper.selectByExample(example);
 	}
 
 	@Override
 	public int getTotal(Dep dep) {
-		//构造查询条件
 		Example example = new Example(Dep.class);
+		//查询条件
 		Criteria c = example.createCriteria();
 		if (!StringUtils.isEmpty(dep.getName())) {
-			c.andLike("name", "%" + dep.getName() + "%");
+			c.andLike("name", "%" + dep.getName() + "%"); //相当于name like '%xxx%'
 		}
 		if (!StringUtils.isEmpty(dep.getTele())) {
-			c.andLike("tele", dep.getTele());
+			c.andEqualTo("tele", dep.getTele()); //相当于tele = xxxx
 		}
 		return mapper.selectCountByExample(example);
-	}
-
-	@Override
-	public void addDep(Dep dep) {
-		mapper.insertSelective(dep);
-	}
-
-	@Override
-	public void delDep(int uuid) {
-		mapper.deleteByPrimaryKey(uuid);
-	}
-
-	@Override
-	public void updateDep(Dep dep) {
-		mapper.updateByPrimaryKey(dep);
 	}
 
 }
