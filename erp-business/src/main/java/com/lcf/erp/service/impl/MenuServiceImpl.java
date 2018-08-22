@@ -18,5 +18,4 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements IMenuServi
 	public Mapper<Menu> getMapper() {
 		return this.mapper;
 	}
-
 }

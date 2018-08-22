@@ -4,7 +4,7 @@ window.onload = function(){
 }
 var onlyOpenTitle="欢迎使用";//不允许关闭的标签的标题
 
-var _menus={
+/*var _menus={
 		"icon":"icon-sys",
 		"menuid":"0",
 		"menuname":"系统菜单",
@@ -19,15 +19,18 @@ var _menus={
 			 	}
 			 	
 			 ]
-		};
+		};*/
 
 
 
 
 $(function(){	
 	
-	
-	InitLeftMenu();
+	$.post('/menu/getData.do', function(data) {
+		_menus = data;
+		InitLeftMenu();
+	}, 'json');
+	//InitLeftMenu();
 	tabClose();
 	tabCloseEven();
 	

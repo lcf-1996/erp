@@ -16,8 +16,6 @@ public class Dep {
 	private String name;
 	private String tele;
 	
-	public Dep() {}
-	
 	@Override
 	public String toString() {
 		return "Dep [uuid=" + uuid + ", name=" + name + ", tele=" + tele + "]";
