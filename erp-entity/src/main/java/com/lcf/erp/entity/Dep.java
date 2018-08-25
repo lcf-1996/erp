@@ -15,9 +15,4 @@ public class Dep {
 	private Integer uuid;
 	private String name;
 	private String tele;
-	
-	@Override
-	public String toString() {
-		return "Dep [uuid=" + uuid + ", name=" + name + ", tele=" + tele + "]";
-	}	
 }

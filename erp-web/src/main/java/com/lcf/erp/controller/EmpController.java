@@ -21,9 +21,9 @@ public class EmpController {
 	//根据员工ID获取该员工的名字
 	@RequestMapping(path = "/getName.do", produces="application/json;charset=utf-8")
 	@ResponseBody
-	public Map getEmpName(Emp emp) {
+	public Map<String, Object> getEmpName(Emp emp) {
 		List<Emp> emps = empService.find(emp);
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", emps.get(0).getName());
 		return map;
 	}

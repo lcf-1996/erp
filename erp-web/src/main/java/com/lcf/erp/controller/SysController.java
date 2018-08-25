@@ -21,7 +21,7 @@ public class SysController extends BaseController {
 	
 	@RequestMapping(path="/login.do", produces="application/json;charset=utf-8")
 	@ResponseBody
-	public Map login(HttpSession session, Emp emp) {
+	public Map<String, Object> login(HttpSession session, Emp emp) {
 		List<Emp> emps = empService.find(emp);
 		if (emps.size() > 0) {
 			session.setAttribute("emp", emps.get(0)); //把当前登录用户保存在Session中
@@ -34,7 +34,7 @@ public class SysController extends BaseController {
 	//获取当前登录的用户名
 	@RequestMapping(path="/getName.do", produces="application/json;charset=utf-8")
 	@ResponseBody
-	public Map getName(HttpSession session) {
+	public Map<String, Object> getName(HttpSession session) {
 		Object o = session.getAttribute("emp");
 		if (o == null) {
 			return ajaxReturn(false, "请先登录");

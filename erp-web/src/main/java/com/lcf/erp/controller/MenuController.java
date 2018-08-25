@@ -21,7 +21,7 @@ public class MenuController extends BaseController {
 	//加载部门表格的数据
 	@RequestMapping(path="/getData.do", produces={"application/json;charset=utf-8"})
 	@ResponseBody
-	public Map getData() {
+	public Map<String, Object> getData() {
 		Menu menu  = new Menu();
 		menu.setPid("0");
 		//查询所有的一级菜单
@@ -34,7 +34,7 @@ public class MenuController extends BaseController {
 			//把二级菜单设置到一级菜单的menu对象中
 			menu1.setMenus(menus_2);
 		}
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("menus", menus_1);
 		return map;
 	}
