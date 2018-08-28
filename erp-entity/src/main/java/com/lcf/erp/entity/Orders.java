@@ -30,7 +30,6 @@ public class Orders {
 	private Long supplieruuid;
 	private Double totalmoney;
 	private String state;
-	
 	@Transient
 	private List<OrdersDetail> orderDetails;
 }

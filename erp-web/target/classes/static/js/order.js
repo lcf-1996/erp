@@ -1,8 +1,19 @@
+var supplierName;
 var stats =  new Array();
-stats[0] = '未审核';
-stats[1] = '已审核';
-stats[2] = '已确认';
-stats[3] = '已入库';
+if (Request['type'] == 1) {
+	stats[0] = '未审核';
+	stats[1] = '已审核';
+	stats[2] = '已确认';
+	stats[3] = '已入库';
+	
+	supplierName = '供应商';
+}
+if (Request['type'] == 2) {
+	stats[0] = '未出库';
+	stats[3] = '已出库';
+	
+	supplierName = '客户';
+}
 
 var g_index;   //主表格的行索引
 var g_index2;  //子表格的行索引
@@ -12,6 +23,9 @@ $(function() {
 	$("#searchBtn").bind('click', function() {
 		//获取搜索表单的参数
 		var data = getFormData("searchForm");
+		if (data['state'] == '') {
+			delete data.state; //删除对象属性
+		}
 		//重新加载表格，并把表单的参数发送给后台
 		$("#grid").datagrid('reload', data);
 	});
@@ -72,8 +86,8 @@ $(function() {
 				return "<span id='ender_" + rowIndex + "'></span>";
 				
 			}},
-			{field: 'supplieruuid', title: '供应商', width: 80},
-			{field: 'totalMoney', title: '总金额', width: 80},
+			{field: 'supplieruuid', title: supplierName, width: 80},
+			{field: 'totalmoney', title: '总金额', width: 80},
 			{field: 'state', title: '订单状态', formatter: function(value) {
 				return stats[value];
 			}},
@@ -114,7 +128,13 @@ $(function() {
 					}},
 					{field: 'storeuuid', title: '仓库编号', width: 100},
 					{field: 'state', title: '状态', width: 100, formatter: function(value) {
-						return value == 0 ? '未入库' : ((value == 1) ? '已入库' : '');
+						if (Request['type'] == 1) {
+							return value == 0 ? '未入库' : ((value == 1) ? '已入库' : '');
+						}
+						if (Request['type'] == 2) {
+							return value == 0 ? '未出库' : ((value == 1) ? '已出库' : '');
+						}
+						return '';
 					}}
 				]],
 				singleSelect: true,
@@ -145,6 +165,15 @@ $(function() {
 			
 		}
 	});
+	
+	//根据订单状态显示列(如果是销售订单，把检查时间、确认时间、检查人、确认人列隐藏)
+	if (Request['type'] == 2) {
+		$('#grid').datagrid('hideColumn', 'checktime');
+		$('#grid').datagrid('hideColumn', 'starttime');
+		$('#grid').datagrid('hideColumn', 'checker');
+		$('#grid').datagrid('hideColumn', 'starter');
+	}
+
 });
 
 //订单审核
@@ -193,6 +222,27 @@ function doInStore() {
 			} 
 
 			
+		}
+		$.messager.alert('提示', rt.message);
+		
+	}, 'json');
+}
+
+//出库操作
+function doOutStore() {
+	//获取表单数据
+	var data = getFormData("orderForm");
+	//异步提交数据
+	$.post(basePath + '/orders/doOutStore.do', data, function(rt) {
+		if (rt.status) {
+			//关闭窗口
+			$("#orderWindow").window('close');
+			//移出子表格当前操作行
+			$('#ddv_' + g_index).datagrid('deleteRow', g_index2);
+			//判断子表格是否有记录，如果没有，则删除主表格的行
+			if ($('#ddv_' + g_index).datagrid('getRows').length == 0) {
+				$('#grid').datagrid('deleteRow', g_index);
+			} 
 		}
 		$.messager.alert('提示', rt.message);
 		

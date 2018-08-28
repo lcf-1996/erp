@@ -5,7 +5,7 @@ import java.util.List;
 import com.lcf.erp.entity.Dep;
 
 public interface IDepService extends IBaseService<Dep> {
-
+	
 	/**
 	 * 按条件执行查询
 	 * @param dep 封装查询条件
@@ -19,5 +19,5 @@ public interface IDepService extends IBaseService<Dep> {
 	 * @return
 	 */
 	int getTotal(Dep dep);
-
+	
 }

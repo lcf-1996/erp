@@ -69,7 +69,7 @@
 			}],
 			singleSelect: true, //是否单选
 			pagination: true, //显示分页栏
-			pageSize: '5', //每页显示记录数
+			pageSize: '10', //每页显示记录数
 			pageList: [5, 10, 15, 20] //选择每页显示记录数
 		});
 		

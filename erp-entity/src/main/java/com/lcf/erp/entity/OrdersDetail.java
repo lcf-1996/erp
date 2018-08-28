@@ -23,9 +23,9 @@ public class OrdersDetail {
 	private Double price;
 	private Integer num;
 	private Double money;
-	private Date endtime;
-	private Integer ender;
+	private Date endtime; //入库时间
+	private Integer ender; //操作员ID
 	private Integer storeuuid;
-	private String state;
+	private String state; //0代表未入库 1代表已入库
 	private Long ordersuuid;
 }

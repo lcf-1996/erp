@@ -9,10 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
 import com.lcf.erp.entity.Dep;
 import com.lcf.erp.service.IDepService;
-
-import com.github.pagehelper.PageHelper;
 
 @Controller
 @RequestMapping("/dep")
@@ -28,7 +27,7 @@ public class DepController extends BaseController {
 	@RequestMapping(path="/getData.do", produces={"application/json;charset=utf-8"})
 	@ResponseBody
 	public Map<String, Object> getData(Dep dep, Integer page, Integer rows) {
-
+//		System.out.println("dep = " + dep + ", page = " + page + ", rows = " + rows);
 		if (page == null) {
 			page = 1;
 		}
@@ -57,7 +56,7 @@ public class DepController extends BaseController {
 		}
 	}
 	
-	//删除部门
+	//添加部门
 	@RequestMapping(path="/del.do", produces={"application/json;charset=utf-8"})
 	@ResponseBody
 	public Map<String, Object> delDep(Dep dep) {
@@ -74,6 +73,7 @@ public class DepController extends BaseController {
 	@RequestMapping(path="/get.do", produces="application/json;charset=utf-8")
 	@ResponseBody
 	public Dep get(int uuid) {
+		System.out.println("uuid" + uuid);
 		return depService.findById(uuid);
 	}
 	

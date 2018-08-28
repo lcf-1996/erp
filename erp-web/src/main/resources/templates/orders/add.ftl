@@ -2,21 +2,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>采购申请</title>
+<title></title>
 <link rel="stylesheet" type="text/css" href="${request.contextPath}/easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="${request.contextPath}/easyui/themes/icon.css">
 <script type="text/javascript" src="${request.contextPath}/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="${request.contextPath}/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${request.contextPath}/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${request.contextPath}/js/form.js"></script>
+<script type="text/javascript" src="${request.contextPath}/js/request.js"></script>
 <script type="text/javascript">
 	var lastRowIndex;
 	
+	var type = Request['type']; //获取请求url的type参数
+	//alert(type);
+	//获取type参数
+	if (type == 1) {
+		document.title = '采购订单录入'; //修改标题
+	}
+	if (type == 2) {
+		document.title = '销售订单录入';
+	}
+		
 	$(function() {
 	
 		//供应商下拉框
 		$("#supplier").combogrid({
-			url: '${request.contextPath}/supplier/getComboData.do', //后台返回json数组对象
+			url: '${request.contextPath}/supplier/getComboData.do?type=' + type, //后台返回json数组对象
 			idField: 'uuid', //<input name="uuid" value="name"/>
 			textField: 'name',
 			panelWidth: 700, //设置下拉表格的宽度
@@ -26,7 +37,8 @@
 			   {field: 'address', title: '地址', width: 100},
 			   {field: 'contact', title: '联系人', width: 100},
 			   {field: 'tele', title: '电话', width: 100}
-			]]
+			]],
+			mode: 'remote' //每次输入供应商内容的时候，都会请求服务器
 		});
 		
 	
@@ -47,8 +59,12 @@
 							$(uuidEditor.target).val(record.uuid);
 							//得到price的编辑器
 							var priceEditor = $("#grid").datagrid('getEditor', {index: lastRowIndex, field: 'price'});
-							//设置price编辑器的值
-							$(priceEditor.target).val(record.inprice);
+							if (type == 1) {
+								$(priceEditor.target).val(record.inprice); //设置price编辑器的值
+							}
+							if (type == 2) {
+								$(priceEditor.target).val(record.outprice);
+							}
 							//重新计算总金额
 							cal();
 							//计算总金额
@@ -156,8 +172,6 @@
 		$("#grid").datagrid('endEdit', lastRowIndex);
 		//删除一行
 		$("#grid").datagrid('deleteRow', index);
-		//重新计算总金额
-		sum();
 	}
 	
 	//计算总金额
@@ -168,8 +182,8 @@
 			totalMoney += parseFloat(rows[i].money);
 		}
 		//alert(totalMoney);
-		$("#sum").html(totalMoney.toFixed(2));
-		$("#totalmoney").val(totalMoney.toFixed(2));
+		$("#sum").html(totalMoney);
+		$("#totalmoney").val(totalMoney);
 	}
 	
 	//保存按钮
@@ -185,11 +199,12 @@
 		var data = getFormData('orderForm');
 		//把表格的数据添加到json对象中
 		data['json'] = jsonData;
+		data['type'] = type; //订单类型
 		//发送异步请求
 		$.post('${request.contextPath}/orders/save.do', data, function(rt) {
 			if (rt.status) {
 				//清空表格的数据
-				$('#grid').datagrid('reload', {total: 0, rows: []});
+				$('#grid').datagrid('loadData', {total: 0, rows: []});
 				//设置总金额为0
 				$('#sum').html('0');
 			} 
@@ -200,7 +215,15 @@
 </head>
 <body>
 	<form id="orderForm">
-		供应商：<input id="supplier" name="supplieruuid"/>
+		<script>
+			if (type == 1) {
+				document.write('供应商：');
+			}
+			if (type == 2) {
+				document.write('客户 ：');
+			}
+		</script>
+		<input id="supplier" name="supplieruuid"/>
 		<input type="hidden" id="totalmoney" name="totalmoney"/>
 	</form>
 	<table id="grid"></table>

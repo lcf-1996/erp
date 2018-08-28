@@ -81,6 +81,18 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.1.37</version>
 		</dependency>
+		<!-- 生成图表 -->
+		<dependency>
+			<groupId>jfreechart</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- 导出excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.11</version>
+		</dependency>
 	</dependencies>
 
 	<modules>

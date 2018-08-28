@@ -16,7 +16,7 @@
 	var basePath = '${request.contextPath}';
 	var url = '${request.contextPath}/orders/getData.do?state=2';
 	var oper;
-	var isFilter = true;
+	var isFilter = true; //true代表把不是“待入库”的订单明细过滤掉
 </script>
 </head>
 <body>

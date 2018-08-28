@@ -9,8 +9,6 @@ import com.lcf.erp.service.IStoreService;
 
 import tk.mybatis.mapper.common.Mapper;
 
-
-
 @Service
 public class StoreServiceImpl extends BaseServiceImpl<Store> implements IStoreService {
 	@Autowired

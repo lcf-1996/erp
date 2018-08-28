@@ -4,17 +4,19 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import tk.mybatis.mapper.common.Mapper;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.entity.Example.Criteria;
 
 import com.lcf.erp.entity.Dep;
 import com.lcf.erp.mapper.DepMapper;
 import com.lcf.erp.service.IDepService;
 
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
+
 @Service
+@Transactional(readOnly = true)
 public class DepServiceImpl extends BaseServiceImpl<Dep> implements IDepService {
 	@Autowired
 	private DepMapper mapper;
