@@ -1,5 +1,6 @@
 package com.lcf.erp.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -19,5 +20,18 @@ public class Menu {
 	private String url; //菜单URL
 	private String pid; //上级菜单ID
 	@Transient
-	private List<Menu> menus; //下级菜单
+	private List<Menu> menus = new ArrayList<Menu>(); //下级菜单
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof Menu) {
+			Menu menu = (Menu) obj;
+			return this.menuid.equals(menu.getMenuid());
+		}
+		return false;
+	}
+	
 }

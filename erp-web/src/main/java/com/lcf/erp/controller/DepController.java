@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.subject.Subject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +25,13 @@ public class DepController extends BaseController {
 
 	//跳转到部门查询页
 	@RequestMapping("/list.do")
-	public void list() {}
+	//@RequiresPermissions({"部门"}) 
+	public void list() {
+		Subject subject = SecurityUtils.getSubject();
+		if (!subject.isPermitted("部门")) {
+			throw new AuthorizationException();
+		}
+	}
 	
 	//加载部门表格的数据
 	@RequestMapping(path="/getData.do", produces={"application/json;charset=utf-8"})
@@ -73,7 +83,6 @@ public class DepController extends BaseController {
 	@RequestMapping(path="/get.do", produces="application/json;charset=utf-8")
 	@ResponseBody
 	public Dep get(int uuid) {
-		System.out.println("uuid" + uuid);
 		return depService.findById(uuid);
 	}
 	

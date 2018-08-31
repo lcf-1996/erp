@@ -15,6 +15,8 @@ import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
+
+
 @Service
 @Transactional(readOnly = true)
 public class SupplierServiceImpl extends BaseServiceImpl<Supplier> implements ISupplierService {

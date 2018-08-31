@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,8 @@ public class StoreController extends BaseController {
 	@RequestMapping(path="/getComboData.do", produces="application/json;charset=utf-8")
 	@ResponseBody
 	public List<Store> getComboData(HttpSession session) {
-		Emp emp = (Emp) session.getAttribute("emp");
+		Subject subject = SecurityUtils.getSubject();
+		Emp emp = (Emp) subject.getPrincipal();
 		Store store = new Store();
 		store.setEmpuuid(emp.getUuid());
 		return storeService.find(store);

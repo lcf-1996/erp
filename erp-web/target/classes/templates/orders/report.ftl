@@ -27,7 +27,7 @@
 			$('#grid').datagrid('load', data);
 			//更新图表数据
 			$('#chart').attr('src', '${request.contextPath}/orders/chart.do?startDate=' + data['startDate']
-				+ '&endDate = ' + data['endDate']);
+				+ '&endDate=' + data['endDate']);
 		});
 		
 		//绑定导出按钮的事件

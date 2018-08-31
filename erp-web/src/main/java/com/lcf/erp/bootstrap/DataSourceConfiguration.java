@@ -56,4 +56,6 @@ public class DataSourceConfiguration {
         return sqlSessionFactoryBean;
     }
 
+	
 }
+

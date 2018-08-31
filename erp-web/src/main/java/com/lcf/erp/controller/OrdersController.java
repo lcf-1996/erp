@@ -3,38 +3,32 @@ package com.lcf.erp.controller;
 import java.awt.Font;
 import java.io.IOException;
 import java.net.URLEncoder;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.general.DefaultPieDataset;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-
 import com.github.pagehelper.PageHelper;
-
 import com.lcf.erp.entity.Emp;
 import com.lcf.erp.entity.OrderReport;
 import com.lcf.erp.entity.Orders;
@@ -96,9 +90,11 @@ public class OrdersController extends BaseController {
 	//保存
 	@RequestMapping(path="/save.do", produces={"application/json;charset=utf-8"})
 	@ResponseBody
-	public Map<String, Object> save(HttpSession session, Orders orders, String json) {
+	public Map<String, Object> save(Orders orders, String json) {
 		//从session中获取当前的登录用户
-		Object o = session.getAttribute("emp");
+		Subject subject = SecurityUtils.getSubject();
+		Object o = subject.getPrincipal();
+		
 		if (o == null) {
 			return ajaxReturn(false, "请先登录");
 		} else {
@@ -123,9 +119,10 @@ public class OrdersController extends BaseController {
 	//订单审核
 	@RequestMapping(path="/doCheck.do", produces={"application/json;charset=utf-8"})
 	@ResponseBody
-	public Map<String, Object> doCheck(HttpSession session, Orders orders) {
+	public Map<String, Object> doCheck(Orders orders) {
 		try {
-			Object o = session.getAttribute("emp");
+			Subject subject = SecurityUtils.getSubject();
+			Object o = subject.getPrincipal();
 			if (o == null) {
 				return ajaxReturn(false, "请先登录");
 			}
@@ -143,9 +140,10 @@ public class OrdersController extends BaseController {
 	//订单确认
 	@RequestMapping(path="/doStart.do", produces={"application/json;charset=utf-8"})
 	@ResponseBody
-	public Map<String, Object> doStart(HttpSession session, Orders orders) {
+	public Map<String, Object> doStart(Orders orders) {
 		try {
-			Object o = session.getAttribute("emp");
+			Subject subject = SecurityUtils.getSubject();
+			Object o = subject.getPrincipal();
 			if (o == null) {
 				return ajaxReturn(false, "请先登录");
 			}
@@ -163,10 +161,11 @@ public class OrdersController extends BaseController {
 	//订单入库
 	@RequestMapping(path="/doInStore.do", produces={"application/json;charset=utf-8"})
 	@ResponseBody
-	public Map<String, Object> doInStore(HttpSession session, Integer ordersdetailuuid, Integer storeuuid) {
+	public Map<String, Object> doInStore(Integer ordersdetailuuid, Integer storeuuid) {
 		System.out.println("ordersdetailuuid = " + ordersdetailuuid + ", storeuuid = " + storeuuid);
 		try {
-			Object o = session.getAttribute("emp");
+			Subject subject = SecurityUtils.getSubject();
+			Object o = subject.getPrincipal();
 			if (o == null) {
 				return ajaxReturn(false, "请先登录");
 			}
@@ -181,9 +180,10 @@ public class OrdersController extends BaseController {
 	//订单出库
 	@RequestMapping(path="/doOutStore.do", produces={"application/json;charset=utf-8"})
 	@ResponseBody
-	public Map<String, Object> doOutStore(HttpSession session, Integer ordersdetailuuid, Integer storeuuid) {
+	public Map<String, Object> doOutStore(Integer ordersdetailuuid, Integer storeuuid) {
 		try {
-			Object o = session.getAttribute("emp");
+			Subject subject = SecurityUtils.getSubject();
+			Object o = subject.getPrincipal();
 			if (o == null) {
 				return ajaxReturn(false, "请先登录");
 			}

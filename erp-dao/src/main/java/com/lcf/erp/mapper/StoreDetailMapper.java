@@ -8,7 +8,5 @@ import tk.mybatis.mapper.common.Mapper;
 
 @Repository
 public interface StoreDetailMapper extends Mapper<StoreDetail> {
-
-	
 	
 }

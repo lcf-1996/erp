@@ -8,8 +8,6 @@ import com.lcf.erp.service.IBaseService;
 
 import tk.mybatis.mapper.common.Mapper;
 
-
-
 public abstract class BaseServiceImpl<T> implements IBaseService<T> {
 	/*
 		获取Mapper对象

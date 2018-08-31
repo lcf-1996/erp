@@ -9,6 +9,4 @@ import tk.mybatis.mapper.common.Mapper;
 @Repository
 public interface StoreOperMapper extends Mapper<StoreOper> {
 
-	
-	
 }

@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>订单查询</title>
-<link rel="stylesheet" type="text/css" href="${request.contextPath}/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="${request.contextPath}/easyui/themes/icon.css">
-<script type="text/javascript" src="${request.contextPath}/easyui/jquery.min.js"></script>
-<script type="text/javascript" src="${request.contextPath}/easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${request.contextPath}/easyui/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="${request.contextPath}/easyui/datagrid-detailview.js"></script>
-<script type="text/javascript" src="${request.contextPath}/js/form.js"></script>
-<script type="text/javascript" src="${request.contextPath}/js/date.js"></script>
-<script type="text/javascript" src="${request.contextPath}/js/order.js"></script>
+<script type="text/javascript">
 	$(function() {
 		
 		$("#grid").datagrid({
@@ -22,12 +9,19 @@
 		       {field:'storenum', title:'库存数量', width:100}, 
 		       {field:'outnum', title:'待发货数量', width:100} 
 			]],
-			singleSelect: true
+			singleSelect: true,
+			toolbar: [{ //定义一个工具栏
+				iconCls: 'icon-add',
+				text: '发送报警邮件',
+				handler: function() {
+					$.post('${request.contextPath}/storealert/send.do', function(rt) {
+						$.messager.alert('提示', rt.message);
+					}, 'json');
+				}
+			}]
 		});
 		
 	});
-</head>
-<body>
-	<table id="grid"></table>
-</body>
-</html>
+	
+</script>
+<table id="grid"></table>

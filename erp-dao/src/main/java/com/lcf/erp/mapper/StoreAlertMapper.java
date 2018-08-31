@@ -8,5 +8,5 @@ import tk.mybatis.mapper.common.Mapper;
 
 @Repository
 public interface StoreAlertMapper extends Mapper<StoreAlert> {
-	
+
 }

@@ -11,9 +11,9 @@ var onlyOpenTitle="欢迎使用";//不允许关闭的标签的标题
 		"menus":
 			[
 			 	{
-			 		"icon":"icon-sys","menuid":"100","menuname":"一级菜单","menus":
+			 		"icon":"icon-sys","menuid":"100","menuname":"系统管理","menus":
 					[
-						{"icon":"icon-sys","menuid":"101","menuname":"二级菜单","url":""}	,
+						{"icon":"icon-sys","menuid":"101","menuname":"部门","url":"/dep/list.do"}	,
 						{"icon":"icon-sys","menuid":"102","menuname":"二级菜单","url":""}						
 					]
 			 	}
@@ -21,15 +21,16 @@ var onlyOpenTitle="欢迎使用";//不允许关闭的标签的标题
 			 ]
 		};*/
 
-
+var _menus;
 
 
 $(function(){	
 	
-	$.post('/menu/getData.do', function(data) {
-		_menus = data;
+	$.post('menu/getData.do', function(rt) {
+		_menus = rt;
 		InitLeftMenu();
 	}, 'json');
+	
 	//InitLeftMenu();
 	tabClose();
 	tabCloseEven();
@@ -313,10 +314,16 @@ function closePwd() {
 
 
 //修改密码
+//修改密码
 function serverLogin() {
+	var $oldpass = $('#txtOldPass');
     var $newpass = $('#txtNewPass');
     var $rePass = $('#txtRePass');
 
+    if ($oldpass.val() == '') {
+        msgShow('系统提示', '请输入原密码！', 'warning');
+        return false;
+    }
     if ($newpass.val() == '') {
         msgShow('系统提示', '请输入密码！', 'warning');
         return false;
@@ -331,14 +338,17 @@ function serverLogin() {
         return false;
     }
 
-    $.post('/ajax/editpassword.ashx?newpass=' + $newpass.val(), function(msg) {
-        msgShow('系统提示', '恭喜，密码修改成功！<br>您的新密码为：' + msg, 'info');
-        $newpass.val('');
-        $rePass.val('');
-        close();
-    })
-    
+    $.post('sys/updatePwd.do', {oldPwd:$oldpass.val(), newPwd:$newpass.val()}, function(rt) {
+    	msgShow('提示', rt.message);
+    	if (rt.status) {
+    		 $oldpass.val('');
+			 $newpass.val('');
+		     $rePass.val('');
+		     closePwd();
+    	}
+    }, 'json')
 }
+
 
 $(function() {
 

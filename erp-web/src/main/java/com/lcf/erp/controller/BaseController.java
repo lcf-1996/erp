@@ -5,8 +5,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 
 public class BaseController {
@@ -29,5 +33,14 @@ public class BaseController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
 	}
-	
+
+	@ExceptionHandler
+	public String handleExcpetion(HttpServletRequest request, Exception ex) {
+		if (ex instanceof AuthorizationException) {
+			return "redirect:/403.html";
+		} else {
+			return "redirect:/global-error.html";
+		}
+	}
+
 }
